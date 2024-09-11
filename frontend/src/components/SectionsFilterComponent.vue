@@ -25,11 +25,11 @@ const resetForm = () => {
 };
 
 const handleSubmit = () => {
-  roomsStore.filterRooms(formData);
   if (formData.checkIn && formData.checkOut) {
     format(formData.checkIn, "yyyy-MM-dd");
     format(formData.checkOut, "yyyy-MM-dd");
   }
+  roomsStore.filterRooms(formData);
 };
 </script>
 
