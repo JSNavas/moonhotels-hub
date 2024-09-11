@@ -55,7 +55,7 @@ class HotelLegsAdapter implements ProviderInterface
                         )
                         ->when(
                             !is_null($request->numberOfRooms),
-                            fn($q) => $q->where('room', '>=', $request->numberOfRooms)
+                            fn($q) => $q->where('room', '=', $request->numberOfRooms)
                         )
                         ->when(
                             !is_null($request->currency),
