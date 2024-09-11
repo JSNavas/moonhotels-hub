@@ -21,10 +21,10 @@ cd frontend
 ```
 
 ```
-bun install
+bun install o yarn install
 ```
 
 ```
-bun dev
+bun dev o yarn dev
 ```
 
