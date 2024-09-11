@@ -4,5 +4,10 @@ namespace App\Http\Responses;
 
 class ProviderResponse
 {
-    // ... (propiedades y métodos)
+    public array $results;
+
+    public function __construct(array $results)
+    {
+        $this->results = $results;
+    }
 }

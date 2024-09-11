@@ -4,31 +4,36 @@ namespace App\Services;
 
 use App\Http\Requests\SearchRequest;
 use App\Http\Responses\HubResponse;
-use App\Services\Providers\HotelLegs\HotelLegsAdapter;
-use App\Services\Providers\Speedia\SpeediaAdapter;
+use App\Enums\Provider;
 
 class Hub
 {
-    private array $providers = [
-        HotelLegsAdapter::class,
-        SpeediaAdapter::class,
-    ];
-
     public function search(SearchRequest $request): HubResponse
     {
-        $responses = collect([]);
-        foreach ($this->providers as $providerClass) {
+        if($request->hotelId) {
+            $responses = [];
+            $providerClass = Provider::PROVIDERS_CLASSES[$request->hotelId];
+
             $provider = app($providerClass);
+
             $providerRequest = $provider->translateRequest($request);
             $providerResponse = $provider->search($providerRequest);
-            $responses->push($provider->translateResponse($providerResponse));
+            $responses = $provider->translateResponse($providerResponse);
+
+            return new HubResponse(collect($responses)->flatten(1));
+
+        } else {
+            $responses = [];
+            $providersClasses = Provider::PROVIDERS_CLASSES;
+
+            foreach ($providersClasses as $providerClass) {
+                $provider = app($providerClass);
+                $providerRequest = $provider->translateRequest($request);
+                $providerResponse = $provider->search($providerRequest);
+                $responses = $provider->translateResponse($providerResponse);
+            }
+
+            return new HubResponse(collect($responses)->flatten(1));
         }
-
-        // Aplanar las respuestas para eliminar el primer key 'rooms'
-        $flattenedResponses = $responses->flatMap(function ($response) {
-            return $response->rooms;
-        });
-
-        return new HubResponse($flattenedResponses);
     }
 }
