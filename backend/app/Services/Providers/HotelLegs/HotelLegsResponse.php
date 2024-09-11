@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\HotelLegs;
+namespace App\Services\Providers\HotelLegs;
 
 use App\Http\Responses\ProviderResponse;
 

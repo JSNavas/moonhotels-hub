@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\SearchRequest;
 use App\Http\Responses\HubResponse;
-use App\Providers\HotelLegs\HotelLegsAdapter;
+use App\Services\Providers\HotelLegs\HotelLegsAdapter;
 
 class Hub
 {

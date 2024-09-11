@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Interfaces;
 
 use App\Http\Requests\SearchRequest;
 use App\Http\Responses\HubResponse;
