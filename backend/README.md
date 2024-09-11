@@ -24,7 +24,7 @@ Paso a paso de lo que debes ejecutar el servidor backend:
     ```
  2. Ingresa a la carpeta del repositorio
     ```
-    cd repositorio
+    cd moonhotels-hub
     ```
  3. Instala las dependencias del proyecto
     ```
