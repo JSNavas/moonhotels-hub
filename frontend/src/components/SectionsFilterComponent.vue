@@ -24,6 +24,7 @@ const resetForm = () => {
   formData.checkOut = null;
   formData.numberOfRooms = "1";
   formData.currency = "EUR";
+  roomsStore.getRooms();
 };
 
 const handleSubmit = () => {
@@ -32,7 +33,6 @@ const handleSubmit = () => {
     format(formData.checkOut, "yyyy-MM-dd");
   }
   roomsStore.filterRooms(formData);
-  console.log(formData);
 };
 
 onMounted(async () => {
