@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/search', [HubController::class, 'search']);
+Route::get('/search', [HubController::class, 'search']);
