@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SearchRequest;
 use App\Services\Hub;
+use App\Enums\Provider;
 
 class HubController extends Controller
 {
@@ -13,5 +14,10 @@ class HubController extends Controller
         $response = $hub->search($request);
 
         return response()->json($response);
+    }
+
+    public function providers()
+    {
+        return response()->json(Provider::getProviders());
     }
 }

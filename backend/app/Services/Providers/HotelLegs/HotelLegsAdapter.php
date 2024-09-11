@@ -37,30 +37,30 @@ class HotelLegsAdapter implements ProviderInterface
         // ]);
 
         $data = $this->getData()
-                        ->when(
-                            !is_null($request->hotel),
-                            fn($q) => $q->where('hotel', '=', $request->hotel)
-                        )
-                        ->when(
-                            !is_null($request->checkIn),
-                            fn($q) => $q->where('date', '>=', $request->checkIn)
-                        )
-                        ->when(
-                            !is_null($request->checkOut),
-                            fn($q) => $q->where('date', '<=', $request->checkOut),
-                        )
-                        ->when(
-                            !is_null($request->numberOfGuests),
-                            fn($q) => $q->where('numPerson'. '>=', $request->numberOfGuests)
-                        )
-                        ->when(
-                            !is_null($request->numberOfRooms),
-                            fn($q) => $q->where('room', '=', $request->numberOfRooms)
-                        )
-                        ->when(
-                            !is_null($request->currency),
-                            fn($q) => $q->where('currency', '=', $request->currency)
-                        );
+            ->when(
+                !is_null($request->hotel),
+                fn($q) => $q->where('hotel', '=', $request->hotel)
+            )
+            ->when(
+                !is_null($request->checkIn),
+                fn($q) => $q->where('date', '>=', $request->checkIn)
+            )
+            ->when(
+                !is_null($request->checkOut),
+                fn($q) => $q->where('date', '<=', $request->checkOut),
+            )
+            ->when(
+                !is_null($request->numberOfGuests),
+                fn($q) => $q->where('numPerson'. '>=', $request->numberOfGuests)
+            )
+            ->when(
+                !is_null($request->numberOfRooms),
+                fn($q) => $q->where('room', '=', $request->numberOfRooms)
+            )
+            ->when(
+                !is_null($request->currency),
+                fn($q) => $q->where('currency', '=', $request->currency)
+            );
 
         return new HotelLegsResponse($data->toArray());
     }
