@@ -21,14 +21,6 @@ class SpeediaRequest extends ProviderRequest
             'guests' => 'integer',
             'number_rooms' => 'integer',
             'currency' => 'string',
-
-
-            'id_hotel' => $request->hotelId,
-            'check_in' => $request->checkIn,
-            'check_out' => $request->checkOut,
-            'number_guests' => $request->numberOfGuests,
-            'number_rooms' => $request->numberOfRooms,
-            'currency' => $request->currency,
         ];
     }
 
