@@ -16,7 +16,6 @@ class SpeediaRequest extends ProviderRequest
         return [
             'id_hotel' => 'integer',
             'check_in' => 'date',
-            'check_out' => 'date',
             'numberOfNights' => 'integer',
             'guests' => 'integer',
             'number_rooms' => 'integer',

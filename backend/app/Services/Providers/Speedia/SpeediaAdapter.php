@@ -4,6 +4,7 @@ namespace App\Services\Providers\Speedia;
 
 use App\Interfaces\ProviderInterface;
 use App\Http\Requests\SearchRequest;
+use App\Services\Providers\HotelLegs\HotelLegsRequest;
 use App\Services\Providers\Speedia\SpeediaRequest;
 use App\Services\Providers\Speedia\SpeediaResponse;
 use App\Http\Requests\ProviderRequest;
@@ -17,11 +18,13 @@ class SpeediaAdapter implements ProviderInterface
 {
     public function translateRequest(SearchRequest $request): SpeediaRequest
     {
-        // Lógica para transformar la solicitud del HUB al formato de HotelLegs
+        $checkInDate = Carbon::parse($request->checkIn);
+        $checkOutDate = Carbon::parse($request->checkOut);
+
         return new SpeediaRequest(query: [
             'id_hotel' => $request->hotelId,
             'check_in' => $request->checkIn,
-            'check_out' => $request->checkOut,
+            'number_nights' => $checkOutDate->diffInDays($checkInDate),
             'number_guests' => $request->numberOfGuests,
             'number_rooms' => $request->numberOfRooms,
             'currency' => $request->currency,
@@ -46,16 +49,12 @@ class SpeediaAdapter implements ProviderInterface
                             fn($q) => $q->where('date', '>=', $request->check_in)
                         )
                         ->when(
-                            !is_null($request->check_out),
-                            fn($q) => $q->where('date', '<=', $request->check_out),
-                        )
-                        ->when(
                             !is_null($request->number_guests),
-                            fn($q) => $q->where('num_person'. '>=', $request->number_guests)
+                            fn($q) => $q->where('num_person', '>=', $request->number_guests)
                         )
                         ->when(
                             !is_null($request->number_rooms),
-                            fn($q) => $q->where('num_rooms', '=', $request->number_rooms)
+                            fn($q) => $q->where('num_rooms', '>=', $request->number_rooms)
                         )
                         ->when(
                             !is_null($request->currency),
@@ -73,7 +72,7 @@ class SpeediaAdapter implements ProviderInterface
 
         $hubResponse->rooms = $results->map(function ($result) {
             return [
-                'roomId' => $result['num_rooms'],
+                'roomId' => $result['id_room'],
                 'rates' => [
                     [
                         'mealPlanId' => $result['num_meal'],
@@ -91,7 +90,8 @@ class SpeediaAdapter implements ProviderInterface
         return collect([
             [
                 'id_hotel'          => 2,
-                'num_rooms'         => 1,
+                'id_room'           => 1,
+                'num_rooms'         => 4,
                 'num_meal'          => 1,
                 'can_cancel'        => false,
                 'cost'              => 135.48,
@@ -101,7 +101,8 @@ class SpeediaAdapter implements ProviderInterface
             ],
             [
                 'id_hotel'          => 2,
-                'num_rooms'         => 2,
+                'id_room'           => 2,
+                'num_rooms'         => 5,
                 'num_meal'          => 1,
                 'can_cancel'        => true,
                 'cost'              => 145.00,
@@ -111,7 +112,8 @@ class SpeediaAdapter implements ProviderInterface
             ],
             [
                 'id_hotel'          => 2,
-                'num_rooms'         => 3,
+                'id_room'           => 3,
+                'num_rooms'         => 1,
                 'num_meal'          => 1,
                 'can_cancel'        => false,
                 'cost'              => 155.25,
