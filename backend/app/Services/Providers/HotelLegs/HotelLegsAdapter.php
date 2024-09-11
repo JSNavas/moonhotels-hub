@@ -45,7 +45,7 @@ class HotelLegsAdapter implements ProviderInterface
                         )
                         ->when(
                             !is_null($request->checkInDate),
-                            fn($q) => $q->where('date', '>=', $request->checkInDate)
+                            fn($q) => $q->where('date', '>=', Carbon::createFromFormat('Y-m-d', $request->checkInDate))
                         )
                         ->when(
                             !is_null($request->guests),
