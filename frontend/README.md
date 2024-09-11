@@ -16,15 +16,15 @@ Test project for test with Vue, Vite, Tailwind, and bun.
 
 ```
 cd moonhotels
+
+cd frontend
+```
+
+```
 bun install
+```
+
+```
 bun dev
-```
-
-```
-
-```
-
-```
-
 ```
 
