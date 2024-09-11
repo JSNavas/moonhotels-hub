@@ -30,10 +30,16 @@ class Hub
                 $provider = app($providerClass);
                 $providerRequest = $provider->translateRequest($request);
                 $providerResponse = $provider->search($providerRequest);
-                $responses = $provider->translateResponse($providerResponse);
+                $responses[] = $provider->translateResponse($providerResponse);
             }
 
-            return new HubResponse(collect($responses)->flatten(1));
+             // Aplanar las respuestas para eliminar el primer key 'rooms'
+            $flattenedResponses = collect($responses)->flatMap(function ($response) {
+                return $response->rooms;
+            });
+
+            return new HubResponse($flattenedResponses);
+
         }
     }
 }
