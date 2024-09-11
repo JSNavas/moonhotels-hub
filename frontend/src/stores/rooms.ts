@@ -1,14 +1,15 @@
 import { defineStore } from "pinia";
 import { api } from "../utils/api";
-import { Rooms } from "../types";
+import { Providers, Room } from "../types";
 
 export const useRoomsStore = defineStore("rooms", {
   state: () => ({
-    rooms: [] as Rooms[],
+    rooms: [] as Room[],
+    providers: [] as Providers[],
   }),
   actions: {
     async getRooms() {
-      const response = await api.get<Rooms>("/search");
+      const response = await api.get("/search");
       this.rooms = response.data.rooms;
     },
 
@@ -17,6 +18,11 @@ export const useRoomsStore = defineStore("rooms", {
       console.log(params);
       const response = await api.get(`/search?${params}`);
       this.rooms = response.data.rooms;
+    },
+
+    async getProviders() {
+      const response = await api.get("/providers");
+      this.providers = response.data;
     },
   },
 });

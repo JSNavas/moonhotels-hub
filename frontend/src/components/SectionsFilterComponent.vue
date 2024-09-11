@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { format } from "date-fns";
-import { reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useRoomsStore } from "../stores/rooms";
-import { RequestRoom } from "../types";
+import { RequestRoom, Providers } from "../types";
 
 const roomsStore = useRoomsStore();
 
+const providers = ref<Providers[]>([]);
+
 const formData: RequestRoom = reactive({
-  hotelId: null,
+  hotelId: 1 as number,
   numberOfGuests: "1",
   checkIn: null,
   checkOut: null,
@@ -16,7 +18,7 @@ const formData: RequestRoom = reactive({
 });
 
 const resetForm = () => {
-  formData.hotelId = null;
+  formData.hotelId = 1;
   formData.numberOfGuests = "1";
   formData.checkIn = null;
   formData.checkOut = null;
@@ -30,12 +32,52 @@ const handleSubmit = () => {
     format(formData.checkOut, "yyyy-MM-dd");
   }
   roomsStore.filterRooms(formData);
+  console.log(formData);
 };
+
+onMounted(async () => {
+  await roomsStore.getProviders();
+  providers.value = roomsStore.providers;
+});
 </script>
 
 <template>
   <section class="bg-white p-6 rounded-md shadow-md mb-8">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div>
+        <label
+          for="rooomsNumber"
+          class="block text-sm font-medium text-gray-700"
+          >Cantidad de Habitaciones</label
+        >
+        <div class="relative mt-1">
+          <select
+            id="roomsNumber"
+            class="block appearance-none w-full bg-white border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            v-model="formData.hotelId"
+          >
+            <option
+              v-for="provider in providers"
+              :key="provider.hotelId"
+              :value="provider.hotelId"
+            >
+              {{ provider.name }}
+            </option>
+          </select>
+          <div
+            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+          >
+            <svg
+              class="fill-current h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M7 10l5 5 5-5H7z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
       <div>
         <label
           for="rooomsNumber"
@@ -75,7 +117,7 @@ const handleSubmit = () => {
         <input
           type="date"
           id="checkin"
-          v-model="formData.checkin"
+          v-model="formData.checkIn"
           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
@@ -87,7 +129,7 @@ const handleSubmit = () => {
         <input
           type="date"
           id="checkout"
-          v-model="formData.checkout"
+          v-model="formData.checkOut"
           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
         />
       </div>

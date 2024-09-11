@@ -11,6 +11,11 @@ export interface Rooms {
   rooms: Room[];
 }
 
+export interface Providers {
+  hotelId: string;
+  name: string;
+}
+
 export interface Room {
   roomId: number;
   rates: Rate[];

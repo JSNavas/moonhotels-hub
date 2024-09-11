@@ -30,7 +30,7 @@ import { useRoomsStore } from "../stores/rooms";
 
 const roomsStore = useRoomsStore();
 const { rooms } = storeToRefs(roomsStore);
-
+console.log(rooms.value);
 onMounted(() => {
   roomsStore.getRooms();
 });
