@@ -1,6 +1,6 @@
 # Moonhotels
 
-CRUD guía del curso de platzi de laravel.
+Proyecto test para Moonhotels
 
 ## Comenzando 💪🚀
 
@@ -8,10 +8,9 @@ Estas instrucciones te permitirán obtener una copia del proyecto en funcionamie
 
 ### Pre-requisitos 📋
 
-_Que cosas necesitas para poner en marcha el proyecto y como instalarlos_
+_Que cosas necesitas para poner en marcha el proyecto y como instalarlo_
 
 * GIT [Link](https://git-scm.com/downloads)
-* Entorno de servidor local, Ej: [Laragon](https://laragon.org/download/), [XAMPP](https://www.apachefriends.org/es/index.html) o [LAMPP](https://bitnami.com/stack/lamp/installer).
 * PHP Version 7.4 - 8.0 [Link](https://www.php.net/downloads.php).
 * Manejador de dependencias de PHP [Composer](https://getcomposer.org/download/).
 
