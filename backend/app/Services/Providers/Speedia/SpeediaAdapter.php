@@ -46,7 +46,7 @@ class SpeediaAdapter implements ProviderInterface
                         )
                         ->when(
                             !is_null($request->check_in),
-                            fn($q) => $q->where('date', '>=', $request->check_in)
+                            fn($q) => $q->where('date', '>=', Carbon::createFromFormat('Y-m-d', $request->check_in))
                         )
                         ->when(
                             !is_null($request->number_guests),
