@@ -17,13 +17,15 @@ class HotelLegsAdapter implements ProviderInterface
 {
     public function translateRequest(SearchRequest $request): HotelLegsRequest
     {
-        // Lógica para transformar la solicitud del HUB al formato de HotelLegs
+        $checkInDate = Carbon::parse($request->checkIn);
+        $checkOutDate = Carbon::parse($request->checkOut);
+
         return new HotelLegsRequest(query: [
             'hotel' => $request->hotelId,
-            'checkIn' => $request->checkIn,
-            'checkOut' => $request->checkOut,
-            'numberOfGuests' => $request->numberOfGuests,
-            'numberOfRooms' => $request->numberOfRooms,
+            'checkInDate' => $request->checkIn,
+            'numberOfNights' => $checkOutDate->diffInDays($checkInDate),
+            'guests' => $request->numberOfGuests,
+            'rooms' => $request->numberOfRooms,
             'currency' => $request->currency,
         ]);
     }
@@ -42,20 +44,16 @@ class HotelLegsAdapter implements ProviderInterface
                             fn($q) => $q->where('hotel', '=', $request->hotel)
                         )
                         ->when(
-                            !is_null($request->checkIn),
-                            fn($q) => $q->where('date', '>=', $request->checkIn)
+                            !is_null($request->checkInDate),
+                            fn($q) => $q->where('date', '>=', $request->checkInDate)
                         )
                         ->when(
-                            !is_null($request->checkOut),
-                            fn($q) => $q->where('date', '<=', $request->checkOut),
+                            !is_null($request->guests),
+                            fn($q) => $q->where('numPerson', '>=', $request->guests)
                         )
                         ->when(
-                            !is_null($request->numberOfGuests),
-                            fn($q) => $q->where('numPerson'. '>=', $request->numberOfGuests)
-                        )
-                        ->when(
-                            !is_null($request->numberOfRooms),
-                            fn($q) => $q->where('room', '=', $request->numberOfRooms)
+                            !is_null($request->rooms),
+                            fn($q) => $q->where('numberRoom', '>=', $request->rooms)
                         )
                         ->when(
                             !is_null($request->currency),
@@ -73,7 +71,7 @@ class HotelLegsAdapter implements ProviderInterface
 
         $hubResponse->rooms = $results->map(function ($result) {
             return [
-                'roomId' => $result['room'],
+                'roomId' => $result['id'],
                 'rates' => [
                     [
                         'mealPlanId' => $result['meal'],
@@ -91,7 +89,8 @@ class HotelLegsAdapter implements ProviderInterface
         return collect([
             [
                 'hotel'         => 1,
-                'room'          => 1,
+                'id'            => 1,
+                'numberRoom'    => 1,
                 'meal'          => 1,
                 'canCancel'     => false,
                 'price'         => 123.48,
@@ -101,7 +100,8 @@ class HotelLegsAdapter implements ProviderInterface
             ],
             [
                 'hotel'         => 1,
-                'room'          => 2,
+                'id'            => 2,
+                'numberRoom'    => 2,
                 'meal'          => 1,
                 'canCancel'     => true,
                 'price'         => 150.00,
@@ -111,7 +111,8 @@ class HotelLegsAdapter implements ProviderInterface
             ],
             [
                 'hotel'         => 1,
-                'room'          => 3,
+                'id'            => 3,
+                'numberRoom'    => 3,
                 'meal'          => 1,
                 'canCancel'     => false,
                 'price'         => 148.25,

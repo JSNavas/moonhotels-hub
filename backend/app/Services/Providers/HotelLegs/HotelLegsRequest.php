@@ -16,7 +16,6 @@ class HotelLegsRequest extends ProviderRequest
         return [
             'hotel' => 'integer',
             'checkInDate' => 'date',
-            'checkOut' => 'date',
             'numberOfNights' => 'integer',
             'guests' => 'integer',
             'rooms' => 'integer',
