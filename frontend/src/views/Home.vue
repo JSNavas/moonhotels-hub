@@ -10,27 +10,28 @@
       <h2 class="text-2xl font-semibold mb-4">Available Rooms</h2>
 
       <!-- Room Cards -->
-      <CardComponent />
+      <div class="grid grid-cols-3 gap-4">
+        <div v-for="room in rooms" :key="room.roomId">
+          <CardComponent :room="room" />
+        </div>
+      </div>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import SectionsFilterComponent from "../components/SectionsFilterComponent.vue";
-import CardComponent from "../components/CardComponent.vue";
-import AsideComponent from "../components/AsideComponent.vue";
-import { useCounterStore } from "../stores/counter";
-import { computed } from "vue";
+import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
-const store = useCounterStore();
+import AsideComponent from "../components/AsideComponent.vue";
+import CardComponent from "../components/CardComponent.vue";
+import SectionsFilterComponent from "../components/SectionsFilterComponent.vue";
 
-const { name } = storeToRefs(store);
+import { useRoomsStore } from "../stores/rooms";
 
-setTimeout(() => {
-  store.increment();
-}, 1000);
+const roomsStore = useRoomsStore();
+const { rooms } = storeToRefs(roomsStore);
 
-const doubleValue = computed(() => store.doubleCount);
-
-console.log(doubleValue.value, name.value);
+onMounted(() => {
+  roomsStore.getRooms();
+});
 </script>

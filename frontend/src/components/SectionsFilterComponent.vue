@@ -1,20 +1,73 @@
+<script setup lang="ts">
+import { format } from "date-fns";
+import { reactive } from "vue";
+import { useRoomsStore } from "../stores/rooms";
+import { RequestRoom } from "../types";
+
+const roomsStore = useRoomsStore();
+
+const formData: RequestRoom = reactive({
+  hotelId: null,
+  numberOfGuests: "1",
+  checkIn: null,
+  checkOut: null,
+  numberOfRooms: "1",
+  currency: "EUR",
+});
+
+const resetForm = () => {
+  formData.hotelId = null;
+  formData.numberOfGuests = "1";
+  formData.checkIn = null;
+  formData.checkOut = null;
+  formData.numberOfRooms = "1";
+  formData.currency = "EUR";
+};
+
+const handleSubmit = () => {
+  roomsStore.filterRooms(formData);
+  if (formData.checkIn && formData.checkOut) {
+    format(formData.checkIn, "yyyy-MM-dd");
+    format(formData.checkOut, "yyyy-MM-dd");
+  }
+};
+</script>
+
 <template>
   <section class="bg-white p-6 rounded-md shadow-md mb-8">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <!-- Destination -->
       <div>
-        <label for="destination" class="block text-sm font-medium text-gray-700"
-          >Destino</label
+        <label
+          for="rooomsNumber"
+          class="block text-sm font-medium text-gray-700"
+          >Cantidad de Habitaciones</label
         >
-        <input
-          type="text"
-          id="destination"
-          placeholder="Ingresa tu destino"
-          class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-        />
+        <div class="relative mt-1">
+          <select
+            id="roomsNumber"
+            class="block appearance-none w-full bg-white border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            v-model="formData.numberOfRooms"
+          >
+            <option value="1">1 habitación</option>
+            <option value="2">2 habitaciones</option>
+            <option value="3">3 habitaciones</option>
+            <option value="4">4 habitaciones</option>
+            <option value="5">5 habitaciones</option>
+          </select>
+          <div
+            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+          >
+            <svg
+              class="fill-current h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M7 10l5 5 5-5H7z" />
+            </svg>
+          </div>
+        </div>
       </div>
 
-      <!-- Check-in Date -->
       <div>
         <label for="checkin" class="block text-sm font-medium text-gray-700"
           >Fecha de Entrada</label
@@ -22,11 +75,11 @@
         <input
           type="date"
           id="checkin"
+          v-model="formData.checkin"
           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
 
-      <!-- Check-out Date -->
       <div>
         <label for="checkout" class="block text-sm font-medium text-gray-700"
           >Fecha de Salida</label
@@ -34,11 +87,11 @@
         <input
           type="date"
           id="checkout"
+          v-model="formData.checkout"
           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
 
-      <!-- Number of Guests -->
       <div>
         <label for="guests" class="block text-sm font-medium text-gray-700"
           >Cantidad de Personas</label
@@ -46,6 +99,7 @@
         <div class="relative mt-1">
           <select
             id="guests"
+            v-model="formData.numberOfGuests"
             class="block appearance-none w-full bg-white border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="1">1 persona</option>
@@ -69,10 +123,16 @@
       </div>
     </div>
 
-    <!-- Search Button -->
-    <div class="mt-4 text-right">
+    <div class="mt-4 text-right space-x-4">
+      <button
+        class="bg-red-400 text-white px-6 py-2 rounded-md shadow-sm hover:bg-red-600 transition"
+        @click="resetForm"
+      >
+        Limpiar
+      </button>
       <button
         class="bg-blue-500 text-white px-6 py-2 rounded-md shadow-sm hover:bg-blue-600 transition"
+        @click="handleSubmit"
       >
         Buscar
       </button>

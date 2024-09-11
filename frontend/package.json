@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@vue/test-utils": "^2.4.6",
+    "axios": "^1.7.7",
+    "date-fns": "^3.6.0",
     "mocha": "^10.7.3",
     "mochapack": "^2.1.4",
     "pinia": "^2.2.2",
