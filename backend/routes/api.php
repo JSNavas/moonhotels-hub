@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/search', [HubController::class, 'search']);
+Route::get('/providers', [HubController::class, 'providers']);
