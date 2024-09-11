@@ -95,7 +95,7 @@ class SpeediaAdapter implements ProviderInterface
                 'num_meal'          => 1,
                 'can_cancel'        => false,
                 'cost'              => 135.48,
-                'numPerson'         => 2,
+                'num_person'         => 2,
                 'date'              => Carbon::createFromFormat('Y-m-d', '2024-09-05'),
                 'currency'          => 'EUR'
             ],
@@ -106,7 +106,7 @@ class SpeediaAdapter implements ProviderInterface
                 'num_meal'          => 1,
                 'can_cancel'        => true,
                 'cost'              => 145.00,
-                'numPerson'         => 4,
+                'num_person'         => 4,
                 'date'              => Carbon::createFromFormat('Y-m-d', '2024-09-10'),
                 'currency'          => 'EUR'
             ],
@@ -117,7 +117,7 @@ class SpeediaAdapter implements ProviderInterface
                 'num_meal'          => 1,
                 'can_cancel'        => false,
                 'cost'              => 155.25,
-                'numPerson'         => 5,
+                'num_person'         => 5,
                 'date'              => Carbon::createFromFormat('Y-m-d', '2024-09-15'),
                 'currency'          => 'EUR'
             ]

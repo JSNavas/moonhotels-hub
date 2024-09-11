@@ -10,36 +10,21 @@ class Hub
 {
     public function search(SearchRequest $request): HubResponse
     {
-        if($request->hotelId) {
-            $responses = [];
-            $providerClass = Provider::PROVIDERS_CLASSES[$request->hotelId];
+        $responses = collect([]);
+        $providersClasses = Provider::PROVIDERS_CLASSES;
 
+        foreach ($providersClasses as $providerClass) {
             $provider = app($providerClass);
-
             $providerRequest = $provider->translateRequest($request);
             $providerResponse = $provider->search($providerRequest);
-            $responses = $provider->translateResponse($providerResponse);
-
-            return new HubResponse(collect($responses)->flatten(1));
-
-        } else {
-            $responses = [];
-            $providersClasses = Provider::PROVIDERS_CLASSES;
-
-            foreach ($providersClasses as $providerClass) {
-                $provider = app($providerClass);
-                $providerRequest = $provider->translateRequest($request);
-                $providerResponse = $provider->search($providerRequest);
-                $responses[] = $provider->translateResponse($providerResponse);
-            }
-
-             // Aplanar las respuestas para eliminar el primer key 'rooms'
-            $flattenedResponses = collect($responses)->flatMap(function ($response) {
-                return $response->rooms;
-            });
-
-            return new HubResponse($flattenedResponses);
-
+            $responses[] = $provider->translateResponse($providerResponse);
         }
+
+        // Aplanar las respuestas para eliminar el primer key 'rooms'
+        $flattenedResponses = collect($responses)->flatMap(function ($response) {
+            return $response->rooms;
+        });
+
+        return new HubResponse($flattenedResponses);
     }
 }
