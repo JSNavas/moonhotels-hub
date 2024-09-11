@@ -16,7 +16,7 @@ _Que cosas necesitas para poner en marcha el proyecto y como instalarlo_
 
 ### Instalación 🔧
 
-Paso a paso de lo que debes ejecutar el servidor backend:
+Paso a paso de lo que debes hacer para ejecutar el servidor backend:
 
  1. Clona el repositorio dentro de la carpeta de tu servidor con el siguiente comando:
     ```
