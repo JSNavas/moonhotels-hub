@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Providers\HotelLegs;
+namespace App\Services\Providers\Speedia;
 
 use App\Http\Requests\ProviderRequest;
 
-class HotelLegsRequest extends ProviderRequest
+class SpeediaRequest extends ProviderRequest
 {
     /**
      * Define las reglas de validación para la solicitud.
@@ -14,14 +14,21 @@ class HotelLegsRequest extends ProviderRequest
     public function rules(): array
     {
         return [
-            'hotel' => 'integer',
-            'checkInDate' => 'date',
-            'checkOut' => 'date',
+            'id_hotel' => 'integer',
+            'check_in' => 'date',
+            'check_out' => 'date',
             'numberOfNights' => 'integer',
             'guests' => 'integer',
-            'rooms' => 'integer',
+            'number_rooms' => 'integer',
             'currency' => 'string',
 
+
+            'id_hotel' => $request->hotelId,
+            'check_in' => $request->checkIn,
+            'check_out' => $request->checkOut,
+            'number_guests' => $request->numberOfGuests,
+            'number_rooms' => $request->numberOfRooms,
+            'currency' => $request->currency,
         ];
     }
 

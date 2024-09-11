@@ -110,7 +110,7 @@ class HotelLegsAdapter implements ProviderInterface
                 'currency'      => 'EUR'
             ],
             [
-                'hotel'         => 3,
+                'hotel'         => 1,
                 'room'          => 3,
                 'meal'          => 1,
                 'canCancel'     => false,
